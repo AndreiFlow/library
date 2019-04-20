@@ -16,7 +16,14 @@ public class BookController {
     private BookRepository bookRepository;
 
     @RequestMapping("/books")
-    public Iterable<Book> getBooks() {
-        return bookRepository.findAll();
+    public List<Book> getBooks() {
+
+        final ArrayList<Book> list = new ArrayList<>();
+
+        final Iterable<Book> all = bookRepository.findAll();
+
+        all.forEach(list::add);
+
+        return list;
     }
 }
