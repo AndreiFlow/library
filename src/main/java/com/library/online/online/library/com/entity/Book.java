@@ -5,38 +5,35 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "BOOKS")
+@Table(name = "books")
 public class Book {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
 
     @ManyToMany
-    @JoinTable(name = "LANGUAGES_TO_BOOKS", joinColumns = @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "LANGUAGE_ID", referencedColumnName = "ID"))
+    @JoinTable(name = "languages_to_books", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id", referencedColumnName = "id"))
     private List<Language> languages;
 
     @ManyToMany
-    @JoinTable(name = "AUTHORS_TO_BOOKS", joinColumns = @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "AUTHOR_ID", referencedColumnName = "ID"))
+    @JoinTable(name = "authors_to_books", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
     private List<Author> authors;
 
-    @Column(name = "PUBLISHER")
+    @Column(name = "publisher")
     private String publisher;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "PUBLICATION_DATE")
+    @Column(name = "publication_date")
     private Date publicationDate;
-
-    @Column(name = "IMAGE_PATH")
-    private String imagePath;
 
     public Long getId() {
         return id;
@@ -59,6 +56,7 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
+
         this.publisher = publisher;
     }
 
@@ -94,14 +92,6 @@ public class Book {
         this.authors = authors;
     }
 
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
     @Override
     public String toString() {
         return "Book{" +
@@ -112,7 +102,6 @@ public class Book {
                 ", publisher='" + publisher + '\'' +
                 ", description='" + description + '\'' +
                 ", publicationDate=" + publicationDate +
-                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
 }

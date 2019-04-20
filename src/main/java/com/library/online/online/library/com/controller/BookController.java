@@ -1,7 +1,5 @@
 package com.library.online.online.library.com.controller;
 
-import com.library.online.online.library.com.converters.BookConverter;
-import com.library.online.online.library.com.dto.BookDTO;
 import com.library.online.online.library.com.entity.Book;
 import com.library.online.online.library.com.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +16,7 @@ public class BookController {
     private BookRepository bookRepository;
 
     @RequestMapping("/books")
-    public List<BookDTO> getBooks() {
-
-        final ArrayList<BookDTO> list = new ArrayList<>();
-
-        final Iterable<Book> all = bookRepository.findAll();
-
-        all.forEach(book -> list.add(BookConverter.convert(book)));
-
-        return list;
+    public Iterable<Book> getBooks() {
+        return bookRepository.findAll();
     }
 }

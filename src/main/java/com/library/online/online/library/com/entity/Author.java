@@ -5,23 +5,23 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "AUTHORS")
+@Table(name = "authors")
 public class Author {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "FIRST_NAME")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "LAST_NAME")
+    @Column(name = "last_name")
     private String lastName;
 
     @ManyToMany
-    @JoinTable(name = "AUTHORS_TO_BOOKS", joinColumns = @JoinColumn(name = "AUTHOR_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID"))
+    @JoinTable(name = "authors_to_books", joinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
     private List<Book> books;
 
     public List<Book> getBooks() {

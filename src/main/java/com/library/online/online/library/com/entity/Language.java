@@ -4,23 +4,23 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "LANGUAGES")
+@Table(name = "languages")
 public class Language {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "ISO")
+    @Column(name = "iso")
     private String iso;
 
     @ManyToMany
-    @JoinTable(name = "LANGUAGES_TO_BOOKS", joinColumns = @JoinColumn(name = "LANGUAGE_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID"))
+    @JoinTable(name = "languages_to_books", joinColumns = @JoinColumn(name = "language_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
     private List<Book> books;
 
     public Long getId() {
