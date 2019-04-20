@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="ADD_BOOK_TABLE" author="dulevich">
+
+        <sql>
+            DROP TABLE IF EXISTS BOOK;
+        </sql>
+
+        <createTable tableName="LANGUAGES">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="LANGUAGESPK"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="ISO" type="VARCHAR(255)"/>
+        </createTable>
+
+        <createTable tableName="AUTHORS">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="AUTHORSPK"/>
+            </column>
+            <column name="FIRST_NAME" type="VARCHAR(255)"/>
+            <column name="LAST_NAME" type="VARCHAR(255)"/>
+        </createTable>
+
+        <createTable tableName="BOOKS">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="BOOKSPK"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="PUBLISHER" type="VARCHAR(255)"/>
+            <column name="DESCRIPTION" type="VARCHAR(1024)"/>
+            <column name="IMAGE_PATH" type="VARCHAR(255)"/>
+            <column name="PUBLICATION_DATE" type="datetime"/>
+        </createTable>
+
+        <insert tableName="LANGUAGES">
+            <column name="NAME">English</column>
+            <column name="ISO">en</column>
+        </insert>
+
+        <insert tableName="LANGUAGES">
+            <column name="NAME">Russian</column>
+            <column name="ISO">ru</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="ADD_LINK_TABLES" author="dulevich">
+        <createTable tableName="LANGUAGES_TO_BOOKS">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="LANGUAGES_TO_BOOKSPK"/>
+            </column>
+            <column name="LANGUAGE_ID" type="BIGINT">
+                <constraints references="LANGUAGES(ID)" foreignKeyName="FK_LANGUAGES_TO_BOOKS__LANGUAGE"/>
+            </column>
+            <column name="BOOK_ID" type="BIGINT">
+                <constraints references="BOOKS(ID)" foreignKeyName="FK_LANGUAGES_TO_BOOKS__BOOK"/>
+            </column>
+        </createTable>
+        <createTable tableName="AUTHORS_TO_BOOKS">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="AUTHORS_TO_BOOKSPK"/>
+            </column>
+            <column name="AUTHOR_ID" type="BIGINT">
+                <constraints references="AUTHORS(ID)" foreignKeyName="FK_AUTHORS_TO_BOOKS__LANGUAGE"/>
+            </column>
+            <column name="BOOK_ID" type="BIGINT">
+                <constraints references="BOOKS(ID)" foreignKeyName="FK_AUTHORS_TO_BOOKS__BOOK"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="INSERT_AUTHORS_#1" author="dulevich">
+        <insert tableName="AUTHORS">
+            <column name="FIRST_NAME">Robert</column>
+            <column name="LAST_NAME">Martin</column>
+        </insert>
+        <insert tableName="AUTHORS">
+            <column name="FIRST_NAME">Steve</column>
+            <column name="LAST_NAME">McConnell</column>
+        </insert>
+        <insert tableName="AUTHORS">
+            <column name="FIRST_NAME">Joshua</column>
+            <column name="LAST_NAME">Bloch</column>
+        </insert>
+        <insert tableName="AUTHORS">
+            <column name="FIRST_NAME">Kathy</column>
+            <column name="LAST_NAME">Sierra</column>
+        </insert>
+        <insert tableName="AUTHORS">
+            <column name="FIRST_NAME">Bert</column>
+            <column name="LAST_NAME">Bates</column>
+        </insert>
+        <insert tableName="AUTHORS">
+            <column name="FIRST_NAME">Donald</column>
+            <column name="LAST_NAME">Knuth</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="INSERT_BOOKS" author="dulevich">
+        <insert tableName="BOOKS">
+            <column name="NAME">The Clean Coder: A Code of Conduct for Professional Programmers</column>
+            <column name="PUBLISHER">Prentice Hall</column>
+            <column name="DESCRIPTION">Even bad code can function. But if code isn't clean, it can bring a development
+                organization to its knees. Every year, countless hours and significant resources are lost because of
+                poorly written code. But it doesn't have to be that way.
+            </column>
+            <column name="IMAGE_PATH">/images/Clean_Coder.jpg</column>
+            <column name="PUBLICATION_DATE">2011-05-13</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="ADD_LINK_RECORDS" author="dds">
+        <insert tableName="AUTHORS_TO_BOOKS">
+            <column name="AUTHOR_ID">1</column>
+            <column name="BOOK_ID">1</column>
+        </insert>
+        <insert tableName="LANGUAGES_TO_BOOKS">
+            <column name="LANGUAGE_ID">1</column>
+            <column name="BOOK_ID">1</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="ADD_BOOK_2" author="dulevich">
+        <insert tableName="BOOKS">
+            <column name="NAME">Clean Architecture</column>
+            <column name="PUBLISHER">Prentice Hall</column>
+            <column name="DESCRIPTION">By applying universal rules of software architecture, you can dramatically
+                improve developer productivity throughout the life of any software system. Now, building upon the
+                success of his best-selling books Clean Code and The Clean Coder, legendary software craftsman Robert C.
+                Martin (“Uncle Bob”) reveals those rules and helps you apply them.
+            </column>
+            <column name="IMAGE_PATH">/images/Clean_architecture.jpg</column>
+            <column name="PUBLICATION_DATE">2017-09-12</column>
+        </insert>
+    </changeSet>
+<!--    <changeSet id="ADD_LINK_BOOK_2" author="dulevich">-->
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">1</column>-->
+<!--            <column name="BOOK_ID">2</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="LANGUAGES_TO_BOOKS">-->
+<!--            <column name="LANGUAGE_ID">1</column>-->
+<!--            <column name="BOOK_ID">2</column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="ADD_BOOK_3" author="dulevich">-->
+<!--        <insert tableName="BOOKS">-->
+<!--            <column name="NAME">Чистый код. Создание, анализ и рефакторинг</column>-->
+<!--            <column name="PUBLISHER">Питер</column>-->
+<!--            <column name="DESCRIPTION">Плохой код может работать, но он будет мешать развитию проекта и-->
+<!--                компании-разработчика, требуя дополнительные ресурсы на поддержку и «укрощение».-->
+
+<!--                Каким же должен быть код? Эта книга полна реальных примеров, позволяющих взглянуть на код с различных-->
+<!--                направлений: сверху вниз, снизу вверх и даже изнутри. Вы узнаете много нового о коде. Более того,-->
+<!--                научитесь отличать хороший код от плохого, узнаете, как писать хороший код и как преобразовать плохой-->
+<!--                код в хороший.-->
+<!--            </column>-->
+<!--            <column name="IMAGE_PATH">/images/Clean_Coder(ru).jpg</column>-->
+<!--            <column name="PUBLICATION_DATE">2019-09-12</column>-->
+<!--        </insert>-->
+
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">1</column>-->
+<!--            <column name="BOOK_ID">3</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="LANGUAGES_TO_BOOKS">-->
+<!--            <column name="LANGUAGE_ID">2</column>-->
+<!--            <column name="BOOK_ID">3</column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="ADD_BOOK_4" author="dulevich">-->
+<!--        <insert tableName="BOOKS">-->
+<!--            <column name="NAME">Чистая архитектура. Искусство разработки программного обеспечения</column>-->
+<!--            <column name="PUBLISHER">Питер</column>-->
+<!--            <column name="DESCRIPTION">«Чистую архитектуру» обязаны прочитать разработчики всех уровней, системные-->
+<!--                аналитики, архитекторы и каждый программист, который желает подняться по карьерной лестнице или хотя бы-->
+<!--                повлиять на людей, которые занимаются данной работой.-->
+<!--            </column>-->
+<!--            <column name="IMAGE_PATH">/images/Clean_architecture(ru).jpg</column>-->
+<!--            <column name="PUBLICATION_DATE">2019-09-12</column>-->
+<!--        </insert>-->
+
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">1</column>-->
+<!--            <column name="BOOK_ID">4</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="LANGUAGES_TO_BOOKS">-->
+<!--            <column name="LANGUAGE_ID">2</column>-->
+<!--            <column name="BOOK_ID">4</column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="ADD_BOOK_5" author="dulevich">-->
+<!--        <insert tableName="BOOKS">-->
+<!--            <column name="NAME">Идеальный программист. Как стать профессионалом разработки ПО</column>-->
+<!--            <column name="PUBLISHER">Питер</column>-->
+<!--            <column name="DESCRIPTION">В этой книге легендарный эксперт Роберт Мартин (более известный в сообществе как-->
+<!--                «Дядюшка Боб»), автор бестселлера «Чистый код», рассказывает о том, что значит «быть профессиональным-->
+<!--                программистом», описывая методы, инструменты и практики разработки «идеального ПО». Книга насыщена-->
+<!--                практическими советами в отношении всех аспектов программирования: от оценки проекта и написания кода до-->
+<!--                рефакторинга и тестирования.-->
+<!--            </column>-->
+<!--            <column name="IMAGE_PATH">/images/Ideal_programmer(ru).jpg</column>-->
+<!--            <column name="PUBLICATION_DATE">2019-09-12</column>-->
+<!--        </insert>-->
+
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">1</column>-->
+<!--            <column name="BOOK_ID">5</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="LANGUAGES_TO_BOOKS">-->
+<!--            <column name="LANGUAGE_ID">2</column>-->
+<!--            <column name="BOOK_ID">5</column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="ADD_BOOK_6" author="dulevich">-->
+<!--        <insert tableName="BOOKS">-->
+<!--            <column name="NAME">Совершенный код</column>-->
+<!--            <column name="PUBLISHER">Русская редакция</column>-->
+<!--            <column name="DESCRIPTION">Более 10 лет первое издание этой книги считалось одним из лучших практических-->
+<!--                руководств по программированию. Сейчас эта книга полностью обновлена с учетом современных тенденций и-->
+<!--                технологий и дополнена сотнями новых примеров, иллюстрирующих искусство и науку программирования.-->
+<!--                Опираясь на академические исследования, с одной стороны, и практический опыт коммерческих разработок ПО-->
+<!--                - с другой, автор синтезировал из самых эффективных методик и наиболее эффективных принципов ясное-->
+<!--                прагматичное руководство. Каков бы ни был ваш профессиональный уровень, с какими бы средствами-->
+<!--                разработками вы ни работали, какова бы ни была сложность вашего проекта, в этой книге вы найдете нужную-->
+<!--                информацию, она заставит вас размышлять и поможет создать совершенный код.-->
+<!--            </column>-->
+<!--            <column name="IMAGE_PATH">/images/Complete_code(ru).jpg</column>-->
+<!--            <column name="PUBLICATION_DATE">2019-09-12</column>-->
+<!--        </insert>-->
+
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">2</column>-->
+<!--            <column name="BOOK_ID">6</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="LANGUAGES_TO_BOOKS">-->
+<!--            <column name="LANGUAGE_ID">2</column>-->
+<!--            <column name="BOOK_ID">6</column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="ADD_BOOK_7" author="dulevich">-->
+<!--        <insert tableName="BOOKS">-->
+<!--            <column name="NAME">Code Complete: A Practical Handbook of Software Construction, Second Edition</column>-->
+<!--            <column name="PUBLISHER">Microsoft Press</column>-->
+<!--            <column name="DESCRIPTION">Widely considered one of the best practical guides to programming, Steve-->
+<!--                McConnell’s original CODE COMPLETE has been helping developers write better software for more than a-->
+<!--                decade. Now this classic book has been fully updated and revised with leading-edge practices—and-->
+<!--                hundreds of new code samples—illustrating the art and science of software construction. Capturing the-->
+<!--                body of knowledge available from research, academia, and everyday commercial practice, McConnell-->
+<!--                synthesizes the most effective techniques and must-know principles into clear, pragmatic guidance. No-->
+<!--                matter what your experience level, development environment, or project size, this book will inform and-->
+<!--                stimulate your thinking—and help you build the highest quality code.-->
+<!--            </column>-->
+<!--            <column name="IMAGE_PATH">/images/Complete_code.jpg</column>-->
+<!--            <column name="PUBLICATION_DATE">2017-09-12</column>-->
+<!--        </insert>-->
+
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">2</column>-->
+<!--            <column name="BOOK_ID">7</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="LANGUAGES_TO_BOOKS">-->
+<!--            <column name="LANGUAGE_ID">1</column>-->
+<!--            <column name="BOOK_ID">7</column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="ADD_BOOK_8" author="dulevich">-->
+<!--        <insert tableName="BOOKS">-->
+<!--            <column name="NAME">Effective Java</column>-->
+<!--            <column name="PUBLISHER">Addison-Wesley Professional</column>-->
+<!--            <column name="DESCRIPTION">Java has changed dramatically since the previous edition of Effective Java was-->
+<!--                published shortly after the release of Java 6. This Jolt award-winning classic has now been thoroughly-->
+<!--                updated to take full advantage of the latest language and library features. The support in modern Java-->
+<!--                for multiple paradigms increases the need for specific best-practices advice, and this book delivers.-->
+<!--            </column>-->
+<!--            <column name="IMAGE_PATH">/images/Effective_java.jpg</column>-->
+<!--            <column name="PUBLICATION_DATE">2017-12-18</column>-->
+<!--        </insert>-->
+
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">3</column>-->
+<!--            <column name="BOOK_ID">8</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="LANGUAGES_TO_BOOKS">-->
+<!--            <column name="LANGUAGE_ID">1</column>-->
+<!--            <column name="BOOK_ID">8</column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="ADD_BOOK_9" author="dulevich">-->
+<!--        <insert tableName="BOOKS">-->
+<!--            <column name="NAME">Эффективное программирование</column>-->
+<!--            <column name="PUBLISHER">ДМК</column>-->
+<!--            <column name="DESCRIPTION">Каждое правило, представленное в виде короткого законченного эссе, содержит-->
+<!--                описание проблемы, примеры программного кода, а также случаи из практики этого необычайно компетентного-->
+<!--                автора. В эссе включены специальные советы, обсуждение тонкостей языка Java, для иллюстрации выбраны-->
+<!--                превосходные примеры программ. На протяжении всей книги критически оцениваются распространенные идиомы-->
+<!--                языка Java и шаблоны разработки, даются полезные советы и методики.-->
+<!--            </column>-->
+<!--            <column name="IMAGE_PATH">/images/Effective_java(ru).jpg</column>-->
+<!--            <column name="PUBLICATION_DATE">2013-12-18</column>-->
+<!--        </insert>-->
+
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">3</column>-->
+<!--            <column name="BOOK_ID">9</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="LANGUAGES_TO_BOOKS">-->
+<!--            <column name="LANGUAGE_ID">2</column>-->
+<!--            <column name="BOOK_ID">9</column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="ADD_BOOK_10" author="dulevich">-->
+<!--        <insert tableName="BOOKS">-->
+<!--            <column name="NAME">Head First Java</column>-->
+<!--            <column name="PUBLISHER">O'Reilly Media</column>-->
+<!--            <column name="DESCRIPTION">Learning a complex new language is no easy task especially when it s an-->
+<!--                object-oriented computer programming language like Java. You might think the problem is your brain. It-->
+<!--                seems to have a mind of its own, a mind that doesn't always want to take in the dry, technical stuff-->
+<!--                you're forced to study.-->
+<!--            </column>-->
+<!--            <column name="IMAGE_PATH">/images/Head_First_Java.jpg</column>-->
+<!--            <column name="PUBLICATION_DATE">2005-02-18</column>-->
+<!--        </insert>-->
+
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">4</column>-->
+<!--            <column name="BOOK_ID">10</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">5</column>-->
+<!--            <column name="BOOK_ID">10</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="LANGUAGES_TO_BOOKS">-->
+<!--            <column name="LANGUAGE_ID">1</column>-->
+<!--            <column name="BOOK_ID">10</column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="ADD_BOOK_11" author="dulevich">-->
+<!--        <insert tableName="BOOKS">-->
+<!--            <column name="NAME">Head First EJB</column>-->
+<!--            <column name="PUBLISHER">O'Reilly Media</column>-->
+<!--            <column name="DESCRIPTION">What do Ford Financial, IBM, and Victoria's Secret have in common? Enterprise-->
+<!--                JavaBeans (EJB). As the industry standard for platform-independent reusable business components, EJB has-->
+<!--                just become Sun Microsystem's latest developer certification. Whether you want to be certifiable or just-->
+<!--                want to learn the technology inside and out, Head First EJB will get you there in the least painful way.-->
+<!--                And with the greatest understanding.You'll learn not just what the technology is, but more importantly,-->
+<!--                why it is, and what it is and isn't good for. You'll learn tricks and tips for EJB development, along-->
+<!--                with tricks and tips for passing this latest, very challenging Sun Certified Business Component-->
+<!--                Developer (SCBCD) exam.-->
+<!--            </column>-->
+<!--            <column name="IMAGE_PATH">/images/Head_First_EJB.jpg</column>-->
+<!--            <column name="PUBLICATION_DATE">2005-02-18</column>-->
+<!--        </insert>-->
+
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">4</column>-->
+<!--            <column name="BOOK_ID">11</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">5</column>-->
+<!--            <column name="BOOK_ID">11</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="LANGUAGES_TO_BOOKS">-->
+<!--            <column name="LANGUAGE_ID">1</column>-->
+<!--            <column name="BOOK_ID">11</column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="ADD_BOOK_12" author="dulevich">-->
+<!--        <insert tableName="BOOKS">-->
+<!--            <column name="NAME">Изучаем Java</column>-->
+<!--            <column name="PUBLISHER">Эксмо</column>-->
+<!--            <column name="DESCRIPTION">"Изучаем Java" — это не просто книга. Она не только научит вас теории языка Java-->
+<!--                и объектно-ориентированного программирования, она сделает вас программистом. В ее основу положен-->
+<!--                уникальный метод обучения на практике. В отличие от классических учебников информация дается не в-->
+<!--                текстовом, а в визуальном представлении. Вы освоите в деле все самое нужное: синтаксис и концепции-->
+<!--                языка, работу с потоками, работу в сети, распределенное программирование. Вся теория закрепляется-->
+<!--                интереснейшими примерами и тестами.-->
+<!--            </column>-->
+<!--            <column name="IMAGE_PATH">/images/Head_First_Java(ru).jpg</column>-->
+<!--            <column name="PUBLICATION_DATE">2015-02-18</column>-->
+<!--        </insert>-->
+
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">4</column>-->
+<!--            <column name="BOOK_ID">12</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="AUTHORS_TO_BOOKS">-->
+<!--            <column name="AUTHOR_ID">5</column>-->
+<!--            <column name="BOOK_ID">12</column>-->
+<!--        </insert>-->
+<!--        <insert tableName="LANGUAGES_TO_BOOKS">-->
+<!--            <column name="LANGUAGE_ID">2</column>-->
+<!--            <column name="BOOK_ID">12</column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+</databaseChangeLog>

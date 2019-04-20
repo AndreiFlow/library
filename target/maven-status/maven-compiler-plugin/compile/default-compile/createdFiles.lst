@@ -1,0 +1,8 @@
+com/library/online/online/library/com/repository/BookRepository.class
+com/library/online/online/library/com/dto/BookDTO.class
+com/library/online/online/library/com/controller/BookController.class
+com/library/online/online/library/com/converters/BookConverter.class
+com/library/online/online/library/com/entity/Book.class
+com/library/online/online/library/com/entity/Language.class
+com/library/online/online/library/com/Application.class
+com/library/online/online/library/com/entity/Author.class
