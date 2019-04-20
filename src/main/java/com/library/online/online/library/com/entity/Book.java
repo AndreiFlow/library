@@ -97,7 +97,7 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", languages=" + languages +
+                ", languages=" + languages.get(0).getName() +
                 ", authors=" + authors +
                 ", publisher='" + publisher + '\'' +
                 ", description='" + description + '\'' +
