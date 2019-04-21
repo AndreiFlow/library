@@ -16,7 +16,7 @@ public class BookConverter {
         dto.setPublisher(book.getPublisher());
         dto.setLanguages(getLanguages(book));
         dto.setAuthors(getAuthors(book));
-        dto.setPublicationDate(book.getPublicationDate().getYear() + "");
+        dto.setPublicationDate(book.getPublicationDate().getYear() + 1900 + "");
 
         return dto;
     }
